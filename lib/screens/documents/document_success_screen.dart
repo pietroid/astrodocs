@@ -17,35 +17,40 @@ class _DocumentsSuccessScreenState extends State<DocumentsSuccessScreen> {
   Widget build(BuildContext context) {
     final documentsBloc = context.read<DocumentsBloc>();
     final documents = documentsBloc.state.documents;
+    final isLoading = context.select((DocumentsBloc documentsBloc) =>
+        documentsBloc.state is DocumentsLoading);
 
-    return Column(
-      children: [
-        const Text('Documentos'),
-        Expanded(
-          child: ListView.builder(
-            itemBuilder: (context, index) {
-              //TODO: adjust card component
-              return Card(
-                child: InkWell(
-                  child: Text(
-                      '${documents[index].personName} - ${documents[index].birthday}'),
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => DocumentScreen(
-                                documentsBloc: documentsBloc,
-                                documentIndex: index,
-                              )),
-                    );
-                  },
-                ),
-              );
-            },
-            itemCount: documents.length,
+    return Stack(children: [
+      Column(
+        children: [
+          const Text('Documentos'),
+          Expanded(
+            child: ListView.builder(
+              itemBuilder: (context, index) {
+                //TODO: adjust card component
+                return Card(
+                  child: InkWell(
+                    child: Text(
+                        '${documents[index].personName} - ${documents[index].birthday}'),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => DocumentScreen(
+                                  documentsBloc: documentsBloc,
+                                  documentIndex: index,
+                                )),
+                      );
+                    },
+                  ),
+                );
+              },
+              itemCount: documents.length,
+            ),
           ),
-        ),
-      ],
-    );
+        ],
+      ),
+      if (isLoading) const Center(child: CircularProgressIndicator()),
+    ]);
   }
 }

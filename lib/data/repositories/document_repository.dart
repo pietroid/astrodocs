@@ -63,10 +63,33 @@ class DocumentRepository {
 
   Future<List<Document>> fetchDocuments() async {
     await Future.delayed(const Duration(seconds: 1));
-    return _documents;
+    return List.from(_documents);
   }
 
   Future<List<Position>> fetchPositions() async {
     return _positions;
+  }
+
+  Future<void> createDocument({
+    required personName,
+    required birthday,
+  }) async {
+    //TODO: save to storage
+    _documents.add(Document(
+        id: 'akdsjasdj',
+        personName: personName,
+        birthday: birthday,
+        dateCreated: DateTime.now(),
+        planetPositions: [
+          PlanetPosition(
+              planet: Planet(
+                  icon: 'bla', id: 'id2', name: 'Marte', orderNumber: 0)),
+          PlanetPosition(
+              planet: Planet(
+                  icon: 'bla', id: 'id2', name: 'Vênus', orderNumber: 0)),
+          PlanetPosition(
+              planet: Planet(
+                  icon: 'bla', id: 'id2', name: 'Júpiter', orderNumber: 0)),
+        ]));
   }
 }

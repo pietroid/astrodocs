@@ -15,8 +15,12 @@ class DocumentsInitial extends DocumentsState {
   DocumentsInitial() : super(documents: [], positions: []);
 }
 
+class DocumentsInitialLoading extends DocumentsState {
+  DocumentsInitialLoading() : super(documents: [], positions: []);
+}
+
 class DocumentsLoading extends DocumentsState {
-  DocumentsLoading() : super(documents: [], positions: []);
+  const DocumentsLoading({required super.documents, required super.positions});
 }
 
 class DocumentsSuccess extends DocumentsState {

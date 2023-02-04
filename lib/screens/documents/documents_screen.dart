@@ -1,5 +1,6 @@
 import 'package:astrodocs/blocs/documents_bloc.dart';
 import 'package:astrodocs/data/repositories/document_repository.dart';
+import 'package:astrodocs/screens/create_document/create_document_screen.dart';
 import 'package:astrodocs/screens/documents/document_success_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -40,17 +41,24 @@ class _DocumentsWidgetScreenState extends State<DocumentsWidgetScreen> {
     return Scaffold(
       appBar: AppBar(),
       body: BlocBuilder<DocumentsBloc, DocumentsState>(
-          builder: ((context, state) {
-        if (state is DocumentsLoading || state is DocumentsInitial) {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
-        }
-        if (state is DocumentsSuccess) {
-          return const DocumentsSuccessScreen();
-        }
-        return Container();
-      })),
+        builder: ((context, state) {
+          if (state is DocumentsInitialLoading || state is DocumentsInitial) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+          if (state is DocumentsSuccess || state is DocumentsLoading) {
+            return const DocumentsSuccessScreen();
+          }
+          return Container();
+        }),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          showCreateDocumentDialog(context);
+        },
+        child: const Icon(Icons.add),
+      ),
     );
   }
 }
