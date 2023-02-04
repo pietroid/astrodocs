@@ -1,11 +1,12 @@
-import 'package:astrodocs/data/entities/document.dart';
-import 'package:astrodocs/screens/document/document.dart';
+import 'package:astrodocs/blocs/documents_bloc.dart';
+import 'package:astrodocs/screens/document/document_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class DocumentsSuccessScreen extends StatefulWidget {
-  final List<Document> documents;
-  const DocumentsSuccessScreen({Key? key, required this.documents})
-      : super(key: key);
+  const DocumentsSuccessScreen({
+    Key? key,
+  }) : super(key: key);
 
   @override
   State<DocumentsSuccessScreen> createState() => _DocumentsSuccessScreenState();
@@ -14,6 +15,9 @@ class DocumentsSuccessScreen extends StatefulWidget {
 class _DocumentsSuccessScreenState extends State<DocumentsSuccessScreen> {
   @override
   Widget build(BuildContext context) {
+    final documentsBloc = context.read<DocumentsBloc>();
+    final documents = documentsBloc.state.documents;
+
     return Column(
       children: [
         const Text('Documentos'),
@@ -24,20 +28,21 @@ class _DocumentsSuccessScreenState extends State<DocumentsSuccessScreen> {
               return Card(
                 child: InkWell(
                   child: Text(
-                      '${widget.documents[index].personName} - ${widget.documents[index].birthday}'),
+                      '${documents[index].personName} - ${documents[index].birthday}'),
                   onTap: () {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
                           builder: (context) => DocumentScreen(
-                                document: widget.documents[index],
+                                documentsBloc: documentsBloc,
+                                documentIndex: index,
                               )),
                     );
                   },
                 ),
               );
             },
-            itemCount: widget.documents.length,
+            itemCount: documents.length,
           ),
         ),
       ],

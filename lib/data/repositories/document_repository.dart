@@ -1,8 +1,29 @@
 import 'package:astrodocs/data/entities/document.dart';
 import 'package:astrodocs/data/entities/planet.dart';
 import 'package:astrodocs/data/entities/planet_position.dart';
+import 'package:astrodocs/data/entities/position.dart';
 
 class DocumentRepository {
+  final List<Position> _positions = [
+    Position(
+        content: 'bla',
+        name: 'Marte em sagitário',
+        id: 'bla',
+        planet:
+            Planet(id: 'bablab', name: 'Marte', icon: 'icon', orderNumber: 0)),
+    Position(
+        content: 'bla',
+        name: 'Marte em vênus',
+        id: 'bla',
+        planet:
+            Planet(id: 'bablab', name: 'Marte', icon: 'icon', orderNumber: 0)),
+    Position(
+        content: 'bla',
+        name: 'Marte em áries',
+        id: 'bla',
+        planet:
+            Planet(id: 'bablab', name: 'Marte', icon: 'icon', orderNumber: 0))
+  ];
   final List<Document> _documents = [
     Document(
       id: 'asdfasdffds',
@@ -43,5 +64,9 @@ class DocumentRepository {
   Future<List<Document>> fetchDocuments() async {
     await Future.delayed(const Duration(seconds: 1));
     return _documents;
+  }
+
+  Future<List<Position>> fetchPositions() async {
+    return _positions;
   }
 }

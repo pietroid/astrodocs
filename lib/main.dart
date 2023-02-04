@@ -1,4 +1,4 @@
-import 'package:astrodocs/screens/documents/documents.dart';
+import 'package:astrodocs/screens/documents/documents_screen.dart';
 import 'package:flutter/material.dart';
 
 void main() {

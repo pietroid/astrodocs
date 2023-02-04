@@ -1,10 +1,13 @@
 import 'package:astrodocs/data/entities/planet.dart';
 import 'package:astrodocs/data/entities/position.dart';
+import 'package:diacritic/diacritic.dart';
 import 'package:flutter/material.dart';
 
 class PositionsSelectionScreen extends StatefulWidget {
   final Planet planet;
-  const PositionsSelectionScreen({Key? key, required this.planet})
+  final List<Position> positions;
+  const PositionsSelectionScreen(
+      {Key? key, required this.planet, required this.positions})
       : super(key: key);
 
   @override
@@ -13,43 +16,45 @@ class PositionsSelectionScreen extends StatefulWidget {
 }
 
 class _PositionsSelectionScreenState extends State<PositionsSelectionScreen> {
+  String searchTerm = '';
+
   @override
   Widget build(BuildContext context) {
-    final List<Position> positions = [
-      Position(
-          content: 'bla',
-          name: 'Marte em sagitário',
-          id: 'bla',
-          planet: widget.planet),
-      Position(
-          content: 'bla',
-          name: 'Marte em vênus',
-          id: 'bla',
-          planet: widget.planet),
-      Position(
-          content: 'bla',
-          name: 'Marte em áries',
-          id: 'bla',
-          planet: widget.planet),
-    ];
+    final List<Position> matchedPositions = widget.positions
+        .where((position) => removeDiacritics(position.name)
+            .contains(removeDiacritics(searchTerm)))
+        .toList();
+    //TODO: adjust layouting
     return Scaffold(
       appBar: AppBar(),
       body: Column(children: [
         Text('Posições para ${widget.planet.name}:'),
-        //TODO: add search
+        Row(
+          children: [
+            Expanded(
+                child: TextField(
+              onChanged: (value) => setState(
+                () {
+                  searchTerm = value;
+                },
+              ),
+            )),
+            const Icon(Icons.search),
+          ],
+        ),
         Expanded(
           child: ListView.builder(
             itemBuilder: ((context, index) {
               return Column(
                 children: [
                   ListTile(
-                    title: Text(positions[index].name),
+                    title: Text(matchedPositions[index].name),
                   ),
                   const Divider(),
                 ],
               );
             }),
-            itemCount: positions.length,
+            itemCount: matchedPositions.length,
           ),
         )
       ]),

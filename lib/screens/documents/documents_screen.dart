@@ -1,6 +1,6 @@
 import 'package:astrodocs/blocs/documents_bloc.dart';
 import 'package:astrodocs/data/repositories/document_repository.dart';
-import 'package:astrodocs/screens/documents/document_success.dart';
+import 'package:astrodocs/screens/documents/document_success_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -47,9 +47,7 @@ class _DocumentsWidgetScreenState extends State<DocumentsWidgetScreen> {
           );
         }
         if (state is DocumentsSuccess) {
-          return DocumentsSuccessScreen(
-            documents: state.documents,
-          );
+          return const DocumentsSuccessScreen();
         }
         return Container();
       })),
