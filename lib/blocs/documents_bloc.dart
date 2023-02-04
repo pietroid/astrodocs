@@ -1,4 +1,5 @@
 import 'package:astrodocs/data/entities/document.dart';
+import 'package:astrodocs/data/entities/planet_position.dart';
 import 'package:astrodocs/data/entities/position.dart';
 import 'package:astrodocs/data/repositories/document_repository.dart';
 import 'package:bloc/bloc.dart';
@@ -33,6 +34,41 @@ class DocumentsBloc extends Bloc<DocumentsEvent, DocumentsState> {
 
       await documentRepository.createDocument(
           personName: event.personName, birthday: event.birthday);
+      final newDocuments = await documentRepository.fetchDocuments();
+
+      emit(DocumentsSuccess(
+        documents: newDocuments,
+        positions: state.positions,
+      ));
+    });
+
+    on<UpdatePosition>((event, emit) async {
+      final Document currentDocument = event.currentDocument;
+      final Position selectedPosition = event.selectedPosition;
+      final List<PlanetPosition> documentPlanetPositions =
+          List.from(currentDocument.planetPositions);
+
+      for (int i = 0; i < documentPlanetPositions.length; i++) {
+        final planetPosition = documentPlanetPositions[i];
+        if (planetPosition.planet == selectedPosition.planet) {
+          final newPlanetPosition = PlanetPosition(
+            planet: planetPosition.planet,
+            position: selectedPosition,
+          );
+          documentPlanetPositions[i] = newPlanetPosition;
+          break;
+        }
+      }
+
+      final newDocument = Document(
+        id: currentDocument.id,
+        personName: currentDocument.personName,
+        birthday: currentDocument.birthday,
+        planetPositions: documentPlanetPositions,
+        dateCreated: currentDocument.dateCreated,
+      );
+
+      await documentRepository.editDocument(document: newDocument);
       final newDocuments = await documentRepository.fetchDocuments();
 
       emit(DocumentsSuccess(

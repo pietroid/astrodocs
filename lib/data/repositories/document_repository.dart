@@ -92,4 +92,14 @@ class DocumentRepository {
                   icon: 'bla', id: 'id2', name: 'Júpiter', orderNumber: 0)),
         ]));
   }
+
+  Future<void> editDocument({
+    required Document document,
+  }) async {
+    //TODO: save to storage
+    final documentIndex = _documents
+        .indexWhere((currentDocument) => currentDocument.id == document.id);
+
+    _documents[documentIndex] = document;
+  }
 }

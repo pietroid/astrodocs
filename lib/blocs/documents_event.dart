@@ -14,3 +14,13 @@ class CreateDocument extends DocumentsEvent {
     required this.birthday,
   });
 }
+
+class UpdatePosition extends DocumentsEvent {
+  final Document currentDocument;
+  final Position selectedPosition;
+
+  UpdatePosition({
+    required this.currentDocument,
+    required this.selectedPosition,
+  });
+}

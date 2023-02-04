@@ -47,8 +47,12 @@ class _PositionsSelectionScreenState extends State<PositionsSelectionScreen> {
             itemBuilder: ((context, index) {
               return Column(
                 children: [
-                  ListTile(
-                    title: Text(matchedPositions[index].name),
+                  InkWell(
+                    child: ListTile(
+                      title: Text(matchedPositions[index].name),
+                    ),
+                    //TODO: add action
+                    onTap: () {},
                   ),
                   const Divider(),
                 ],
