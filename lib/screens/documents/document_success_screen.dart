@@ -37,7 +37,6 @@ class _DocumentsSuccessScreenState extends State<DocumentsSuccessScreen> {
                         context,
                         MaterialPageRoute(
                             builder: (context) => DocumentScreen(
-                                  documentsBloc: documentsBloc,
                                   documentIndex: index,
                                 )),
                       );

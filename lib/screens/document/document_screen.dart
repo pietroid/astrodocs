@@ -1,13 +1,12 @@
 import 'package:astrodocs/blocs/documents_bloc.dart';
 import 'package:astrodocs/screens/positions/positions_selection_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class DocumentScreen extends StatefulWidget {
-  final DocumentsBloc documentsBloc;
   final int documentIndex;
   const DocumentScreen({
     Key? key,
-    required this.documentsBloc,
     required this.documentIndex,
   }) : super(key: key);
 
@@ -18,7 +17,8 @@ class DocumentScreen extends StatefulWidget {
 class _DocumentScreenState extends State<DocumentScreen> {
   @override
   Widget build(BuildContext context) {
-    final document = widget.documentsBloc.state.documents[widget.documentIndex];
+    final documentsBloc = context.read<DocumentsBloc>();
+    final document = documentsBloc.state.documents[widget.documentIndex];
 
     return Scaffold(
       appBar: AppBar(),
@@ -42,8 +42,7 @@ class _DocumentScreenState extends State<DocumentScreen> {
                             builder: (context) => PositionsSelectionScreen(
                                   planet:
                                       document.planetPositions[index].planet,
-                                  positions:
-                                      widget.documentsBloc.state.positions,
+                                  positions: documentsBloc.state.positions,
                                 )),
                       );
                     }));

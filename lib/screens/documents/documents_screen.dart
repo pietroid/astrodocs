@@ -1,5 +1,4 @@
 import 'package:astrodocs/blocs/documents_bloc.dart';
-import 'package:astrodocs/data/repositories/document_repository.dart';
 import 'package:astrodocs/screens/create_document/create_document_screen.dart';
 import 'package:astrodocs/screens/documents/document_success_screen.dart';
 import 'package:flutter/material.dart';
@@ -13,23 +12,6 @@ class DocumentsScreen extends StatefulWidget {
 }
 
 class _DocumentsScreenState extends State<DocumentsScreen> {
-  @override
-  Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => DocumentsBloc(DocumentRepository()),
-      child: const DocumentsWidgetScreen(),
-    );
-  }
-}
-
-class DocumentsWidgetScreen extends StatefulWidget {
-  const DocumentsWidgetScreen({Key? key}) : super(key: key);
-
-  @override
-  State<DocumentsWidgetScreen> createState() => _DocumentsWidgetScreenState();
-}
-
-class _DocumentsWidgetScreenState extends State<DocumentsWidgetScreen> {
   @override
   void initState() {
     context.read<DocumentsBloc>().add(FetchDocuments());
