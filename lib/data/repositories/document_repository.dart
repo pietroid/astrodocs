@@ -8,19 +8,19 @@ class DocumentRepository {
     Position(
         content: 'bla',
         name: 'Marte em sagitário',
-        id: 'bla',
+        id: '1',
         planet:
             Planet(id: 'bablab', name: 'Marte', icon: 'icon', orderNumber: 0)),
     Position(
         content: 'bla',
-        name: 'Marte em vênus',
-        id: 'bla',
+        name: 'Vênus em gêmeos',
+        id: '2',
         planet:
-            Planet(id: 'bablab', name: 'Marte', icon: 'icon', orderNumber: 0)),
+            Planet(id: 'bablab', name: 'Vênus', icon: 'icon', orderNumber: 0)),
     Position(
         content: 'bla',
         name: 'Marte em áries',
-        id: 'bla',
+        id: '3',
         planet:
             Planet(id: 'bablab', name: 'Marte', icon: 'icon', orderNumber: 0))
   ];
@@ -101,5 +101,6 @@ class DocumentRepository {
         .indexWhere((currentDocument) => currentDocument.id == document.id);
 
     _documents[documentIndex] = document;
+    //
   }
 }

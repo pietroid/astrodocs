@@ -1,4 +1,5 @@
 import 'package:astrodocs/blocs/documents_bloc.dart';
+import 'package:astrodocs/data/entities/document.dart';
 import 'package:astrodocs/data/entities/planet.dart';
 import 'package:astrodocs/data/entities/position.dart';
 import 'package:diacritic/diacritic.dart';
@@ -7,7 +8,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class PositionsSelectionScreen extends StatefulWidget {
   final Planet planet;
-  const PositionsSelectionScreen({Key? key, required this.planet})
+  final Document currentDocument;
+  const PositionsSelectionScreen(
+      {Key? key, required this.planet, required this.currentDocument})
       : super(key: key);
 
   @override
@@ -20,13 +23,15 @@ class _PositionsSelectionScreenState extends State<PositionsSelectionScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final List<Position> matchedPositions = context
-        .read<DocumentsBloc>()
-        .state
-        .positions
-        .where((position) => removeDiacritics(position.name)
-            .contains(removeDiacritics(searchTerm)))
-        .toList();
+    final documentsBloc = context.read<DocumentsBloc>();
+
+    final List<Position> matchedPositions =
+        documentsBloc.state.positions.where((position) {
+      final hasSearchTerm = removeDiacritics(position.name)
+          .contains(removeDiacritics(searchTerm));
+      final isPlanet = position.planet.name == widget.planet.name;
+      return isPlanet && hasSearchTerm;
+    }).toList();
 
     //TODO: adjust layouting
     return Scaffold(
@@ -55,8 +60,13 @@ class _PositionsSelectionScreenState extends State<PositionsSelectionScreen> {
                     child: ListTile(
                       title: Text(matchedPositions[index].name),
                     ),
-                    //TODO: add action
-                    onTap: () {},
+                    onTap: () {
+                      documentsBloc.add(UpdatePosition(
+                        currentDocument: widget.currentDocument,
+                        selectedPosition: matchedPositions[index],
+                      ));
+                      Navigator.of(context).pop();
+                    },
                   ),
                   const Divider(),
                 ],

@@ -30,16 +30,25 @@ class _DocumentScreenState extends State<DocumentScreen> {
         ListView.builder(
           shrinkWrap: true,
           itemBuilder: (context, index) {
+            final planetPosition = document.planetPositions[index];
             return Card(
                 child: InkWell(
-                    child: Text(
-                      document.planetPositions[index].planet.name,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          planetPosition.planet.name,
+                        ),
+                        if (planetPosition.position != null)
+                          Text(planetPosition.position!.name),
+                      ],
                     ),
                     onTap: () {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
                             builder: (context) => PositionsSelectionScreen(
+                                  currentDocument: document,
                                   planet:
                                       document.planetPositions[index].planet,
                                 )),
