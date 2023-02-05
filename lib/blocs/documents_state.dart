@@ -9,6 +9,10 @@ abstract class DocumentsState {
     required this.documents,
     required this.positions,
   });
+
+  Document getDocumentById(String id) {
+    return documents.firstWhere((document) => document.id == id);
+  }
 }
 
 class DocumentsInitial extends DocumentsState {
