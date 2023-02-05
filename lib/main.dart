@@ -1,4 +1,5 @@
 import 'package:astrodocs/blocs/documents_bloc.dart';
+import 'package:astrodocs/data/datasources/local_storage_datasource.dart';
 import 'package:astrodocs/data/repositories/document_repository.dart';
 import 'package:astrodocs/screens/documents/documents_screen.dart';
 import 'package:flutter/material.dart';
@@ -15,7 +16,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => DocumentsBloc(DocumentRepository()),
+      create: (context) => DocumentsBloc(
+        DocumentRepository(
+          LocalStorageDataSource(),
+        ),
+      ),
       child: MaterialApp(
         title: 'Astrodocs',
         theme: ThemeData(
