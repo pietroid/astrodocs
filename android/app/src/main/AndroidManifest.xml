@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.astrodocs">
+    package="com.pietroid.astrodocs">
    <application
         android:label="astrodocs"
         android:name="${applicationName}"

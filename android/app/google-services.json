@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "722585048687",
+    "project_id": "astro-docs-10a36",
+    "storage_bucket": "astro-docs-10a36.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:722585048687:android:d7c41be380668ab5e45f9a",
+        "android_client_info": {
+          "package_name": "com.pietroid.astrodocs"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "722585048687-1r9h0pujkmenpj0kdhif8ekg0dtbngm4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.pietroid.astrodocs",
+            "certificate_hash": "5c51cbcd1c38782fa2d684965301eea2cdcdf372"
+          }
+        },
+        {
+          "client_id": "722585048687-91ugh3ei59uinjt6np4id4crvq40pk6n.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBm3aXr7ORmVqE9SNzwF1uZj3vAzwwrVis"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "722585048687-91ugh3ei59uinjt6np4id4crvq40pk6n.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

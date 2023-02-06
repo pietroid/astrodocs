@@ -1,4 +1,4 @@
-package com.example.astrodocs
+package com.pietroid.astrodocs
 
 import io.flutter.embedding.android.FlutterActivity
 
