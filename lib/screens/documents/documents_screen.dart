@@ -1,4 +1,5 @@
 import 'package:astrodocs/blocs/documents_bloc.dart';
+import 'package:astrodocs/data/repositories/auth_repository.dart';
 import 'package:astrodocs/screens/create_document/create_document_screen.dart';
 import 'package:astrodocs/screens/documents/document_success_screen.dart';
 import 'package:flutter/material.dart';
@@ -20,8 +21,22 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final authRepository = context.read<AuthRepository>();
+
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        actions: [
+          IconButton(
+              onPressed: () async {
+                if (authRepository.isLoggedIn) {
+                  authRepository.logout();
+                } else {
+                  authRepository.login();
+                }
+              },
+              icon: const Icon(Icons.person))
+        ],
+      ),
       body: BlocBuilder<DocumentsBloc, DocumentsState>(
         builder: ((context, state) {
           if (state is DocumentsInitialLoading || state is DocumentsInitial) {
