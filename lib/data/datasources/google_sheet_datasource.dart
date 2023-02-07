@@ -8,10 +8,33 @@ class GoogleSheetDataSource {
   GoogleSheetDataSource(this.googleAuthClient)
       : _sheetsApi = SheetsApi(googleAuthClient);
 
-  Future<void> spreadsheetAsJson({required spreadsheetId}) async {
-    final spreadsheet = await _sheetsApi.spreadsheets
-        .get("1tgXT7YZBQvDtFw3cBQdsQ5jfzupccfivdG8lA3k-PNA");
+  Future<List<Map<String, String?>>> spreadsheetAsJson(
+      {required spreadsheetId}) async {
+    final spreadsheet = await _sheetsApi.spreadsheets.get(
+      spreadsheetId,
+      includeGridData: true,
+    );
     final firstSheet = spreadsheet.sheets!.first;
-    print(firstSheet);
+    final rowData = firstSheet.data!.first.rowData!;
+    final List<Map<String, String?>> jsonList = [];
+
+    final fieldList = [];
+    for (final cell in rowData.first.values!) {
+      fieldList.add(cell.formattedValue!);
+    }
+
+    for (final row in rowData.sublist(1)) {
+      final cellData = row.values!;
+      int i = 0;
+      final Map<String, String?> object = {};
+      for (final cell in cellData) {
+        final selectedField = fieldList[i];
+        object[selectedField] = cell.formattedValue;
+        i++;
+      }
+      jsonList.add(object);
+    }
+
+    return jsonList;
   }
 }

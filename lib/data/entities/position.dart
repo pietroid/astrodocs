@@ -6,13 +6,13 @@ part 'position.g.dart';
 @JsonSerializable()
 class Position {
   final String id;
-  final Planet planet;
+  final String planetName;
   final String name;
   final String content;
 
   Position({
     required this.id,
-    required this.planet,
+    required this.planetName,
     required this.name,
     required this.content,
   });

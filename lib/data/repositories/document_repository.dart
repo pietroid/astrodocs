@@ -14,23 +14,15 @@ class DocumentRepository {
 
   final List<Position> _positions = [
     Position(
-        content: 'bla',
-        name: 'Marte em sagitário',
-        id: '1',
-        planet:
-            Planet(id: 'bablab', name: 'Marte', icon: 'icon', orderNumber: 0)),
+      content: 'bla',
+      name: 'Marte em sagitário',
+      id: '1',
+      planetName: 'Marte',
+    ),
     Position(
-        content: 'bla',
-        name: 'Vênus em gêmeos',
-        id: '2',
-        planet:
-            Planet(id: 'bablab', name: 'Vênus', icon: 'icon', orderNumber: 0)),
+        content: 'bla', name: 'Vênus em gêmeos', id: '2', planetName: 'Vênus'),
     Position(
-        content: 'bla',
-        name: 'Marte em áries',
-        id: '3',
-        planet:
-            Planet(id: 'bablab', name: 'Marte', icon: 'icon', orderNumber: 0))
+        content: 'bla', name: 'Marte em áries', id: '3', planetName: 'Marte')
   ];
   List<Document> _documents = [];
 
@@ -42,8 +34,11 @@ class DocumentRepository {
   }
 
   Future<List<Position>> fetchPositions() async {
-    await googleSheetDataSource.spreadsheetAsJson(spreadsheetId: '');
-    return _positions;
+    final positionsJson = await googleSheetDataSource.spreadsheetAsJson(
+        spreadsheetId: "1tgXT7YZBQvDtFw3cBQdsQ5jfzupccfivdG8lA3k-PNA");
+    return positionsJson
+        .map((positionJson) => Position.fromJson(positionJson))
+        .toList();
   }
 
   Future<void> createDocument({

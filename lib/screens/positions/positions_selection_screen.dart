@@ -29,7 +29,7 @@ class _PositionsSelectionScreenState extends State<PositionsSelectionScreen> {
         documentsBloc.state.positions.where((position) {
       final hasSearchTerm = removeDiacritics(position.name)
           .contains(removeDiacritics(searchTerm));
-      final isPlanet = position.planet.name == widget.planet.name;
+      final isPlanet = position.planetName == widget.planet.name;
       return isPlanet && hasSearchTerm;
     }).toList();
 

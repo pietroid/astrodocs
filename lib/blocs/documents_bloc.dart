@@ -50,7 +50,7 @@ class DocumentsBloc extends Bloc<DocumentsEvent, DocumentsState> {
 
       for (int i = 0; i < documentPlanetPositions.length; i++) {
         final planetPosition = documentPlanetPositions[i];
-        if (planetPosition.planet.name == selectedPosition.planet.name) {
+        if (planetPosition.planet.name == selectedPosition.planetName) {
           final newPlanetPosition = PlanetPosition(
             planet: planetPosition.planet,
             position: selectedPosition,
