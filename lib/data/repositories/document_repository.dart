@@ -12,18 +12,6 @@ class DocumentRepository {
 
   DocumentRepository(this.localStorageDataSource, this.googleSheetDataSource);
 
-  final List<Position> _positions = [
-    Position(
-      content: 'bla',
-      name: 'Marte em sagitário',
-      id: '1',
-      planetName: 'Marte',
-    ),
-    Position(
-        content: 'bla', name: 'Vênus em gêmeos', id: '2', planetName: 'Vênus'),
-    Position(
-        content: 'bla', name: 'Marte em áries', id: '3', planetName: 'Marte')
-  ];
   List<Document> _documents = [];
   List<Planet> _planets = [];
 
