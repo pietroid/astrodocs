@@ -15,7 +15,12 @@ class DocumentsScreen extends StatefulWidget {
 class _DocumentsScreenState extends State<DocumentsScreen> {
   @override
   void initState() {
-    context.read<DocumentsBloc>().add(FetchDocuments());
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      final authRepository = context.read<AuthRepository>();
+      final documentsBloc = context.read<DocumentsBloc>();
+      await authRepository.setup();
+      documentsBloc.add(FetchDocuments());
+    });
     super.initState();
   }
 

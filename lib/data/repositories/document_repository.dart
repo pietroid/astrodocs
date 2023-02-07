@@ -1,3 +1,4 @@
+import 'package:astrodocs/data/datasources/google_sheet_datasource.dart';
 import 'package:astrodocs/data/datasources/local_storage_datasource.dart';
 import 'package:astrodocs/data/entities/document.dart';
 import 'package:astrodocs/data/entities/planet.dart';
@@ -7,8 +8,9 @@ import 'package:uuid/uuid.dart';
 
 class DocumentRepository {
   final LocalStorageDataSource localStorageDataSource;
+  final GoogleSheetDataSource googleSheetDataSource;
 
-  DocumentRepository(this.localStorageDataSource);
+  DocumentRepository(this.localStorageDataSource, this.googleSheetDataSource);
 
   final List<Position> _positions = [
     Position(
@@ -40,6 +42,7 @@ class DocumentRepository {
   }
 
   Future<List<Position>> fetchPositions() async {
+    await googleSheetDataSource.spreadsheetAsJson(spreadsheetId: '');
     return _positions;
   }
 

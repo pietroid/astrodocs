@@ -7,18 +7,22 @@ class AuthRepository {
   bool _isLoggedIn = false;
   Map<String, String> _authHeaders = {};
 
-  get isLoggedIn => _isLoggedIn;
-  get authHeaders => _authHeaders;
+  bool get isLoggedIn => _isLoggedIn;
+  Map<String, String> get authHeaders => _authHeaders;
+
+  Future<void> setup() async {
+    _isLoggedIn = await _googleSignIn.isSignedIn();
+    if (_isLoggedIn) {
+      await _googleSignIn.signInSilently();
+      _authHeaders = await _googleSignIn.currentUser!.authHeaders;
+    }
+  }
 
   Future<void> login() async {
     try {
       final GoogleSignInAccount? account = await _googleSignIn.signIn();
-      if (account != null) {
-        _authHeaders = await account.authHeaders;
-        _isLoggedIn = await _googleSignIn.isSignedIn();
-
-        print("User account $account");
-      }
+      print("User account $account");
+      await setup();
     } catch (error) {}
   }
 
