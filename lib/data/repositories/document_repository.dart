@@ -25,6 +25,7 @@ class DocumentRepository {
         content: 'bla', name: 'Marte em áries', id: '3', planetName: 'Marte')
   ];
   List<Document> _documents = [];
+  List<Planet> _planets = [];
 
   Future<List<Document>> fetchDocuments() async {
     if (_documents.isEmpty) {
@@ -41,26 +42,30 @@ class DocumentRepository {
         .toList();
   }
 
+  Future<List<Planet>> _fetchPlanets() async {
+    if (_planets.isNotEmpty) return _planets;
+    final planetsJson = await googleSheetDataSource.spreadsheetAsJson(
+        spreadsheetId: "1Ifb-Vxu8s0ufyObReymHPPl1KCwBrnPGFDfzAgoFRrk");
+    _planets =
+        planetsJson.map((planetJson) => Planet.fromJson(planetJson)).toList();
+    return _planets;
+  }
+
   Future<void> createDocument({
     required personName,
     required birthday,
   }) async {
+    final planets = await _fetchPlanets();
     _documents.add(Document(
         id: const Uuid().v1(),
         personName: personName,
         birthday: birthday,
         dateCreated: DateTime.now(),
-        planetPositions: [
-          PlanetPosition(
-              planet: Planet(
-                  icon: 'bla', id: 'id2', name: 'Marte', orderNumber: 0)),
-          PlanetPosition(
-              planet: Planet(
-                  icon: 'bla', id: 'id2', name: 'Vênus', orderNumber: 0)),
-          PlanetPosition(
-              planet: Planet(
-                  icon: 'bla', id: 'id2', name: 'Júpiter', orderNumber: 0)),
-        ]));
+        planetPositions: planets
+            .map((planet) => PlanetPosition(
+                  planet: planet,
+                ))
+            .toList()));
     await _updateDocuments();
   }
 
