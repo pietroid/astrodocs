@@ -76,5 +76,9 @@ class DocumentsBloc extends Bloc<DocumentsEvent, DocumentsState> {
         positions: state.positions,
       ));
     });
+
+    on<GenerateDocument>((event, emit) async {
+      await documentRepository.generateDocument();
+    });
   }
 }

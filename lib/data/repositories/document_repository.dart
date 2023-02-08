@@ -1,3 +1,4 @@
+import 'package:astrodocs/data/datasources/google_docs_datasource.dart';
 import 'package:astrodocs/data/datasources/google_sheet_datasource.dart';
 import 'package:astrodocs/data/datasources/local_storage_datasource.dart';
 import 'package:astrodocs/data/entities/document.dart';
@@ -9,8 +10,13 @@ import 'package:uuid/uuid.dart';
 class DocumentRepository {
   final LocalStorageDataSource localStorageDataSource;
   final GoogleSheetDataSource googleSheetDataSource;
+  final GoogleDocsDataSource googleDocsDataSource;
 
-  DocumentRepository(this.localStorageDataSource, this.googleSheetDataSource);
+  DocumentRepository(
+    this.localStorageDataSource,
+    this.googleSheetDataSource,
+    this.googleDocsDataSource,
+  );
 
   List<Document> _documents = [];
   List<Planet> _planets = [];
@@ -24,7 +30,7 @@ class DocumentRepository {
 
   Future<List<Position>> fetchPositions() async {
     final positionsJson = await googleSheetDataSource.spreadsheetAsJson(
-        spreadsheetId: "1tgXT7YZBQvDtFw3cBQdsQ5jfzupccfivdG8lA3k-PNA");
+        spreadsheetId: "1SHYbPiF4qQ5v5QhpyOTLC9bl72lM-v-7EQRX9NVWGOU");
     return positionsJson
         .map((positionJson) => Position.fromJson(positionJson))
         .toList();
@@ -33,7 +39,7 @@ class DocumentRepository {
   Future<List<Planet>> _fetchPlanets() async {
     if (_planets.isNotEmpty) return _planets;
     final planetsJson = await googleSheetDataSource.spreadsheetAsJson(
-        spreadsheetId: "1Ifb-Vxu8s0ufyObReymHPPl1KCwBrnPGFDfzAgoFRrk");
+        spreadsheetId: "1qxTTNuSLiN6bYKBRObxx5GYhsd2yN_aZRRNreGPSnaA");
     _planets =
         planetsJson.map((planetJson) => Planet.fromJson(planetJson)).toList();
     return _planets;
@@ -65,6 +71,20 @@ class DocumentRepository {
 
     _documents[documentIndex] = document;
     await _updateDocuments();
+  }
+
+  Future<void> generateDocument() async {
+    const templateId = '14lRpN57eOTrkPhYkEzObcgO49bTwNrNRpOo6u1HdKbU';
+    //delete previous document
+    //create blank document
+    final id = await googleDocsDataSource.createBlankDocument(
+        name: 'example', folderId: '1eLDFGAgDjcPiJrzk1JoDl0k6Ng5Si4af');
+    print(id);
+
+    //read template
+    final templateDocument =
+        await googleDocsDataSource.readDocument(fileId: templateId);
+    //change template and update new document for each position
   }
 
   Future<void> _updateDocuments() =>

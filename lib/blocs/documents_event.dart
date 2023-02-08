@@ -24,3 +24,5 @@ class UpdatePosition extends DocumentsEvent {
     required this.selectedPosition,
   });
 }
+
+class GenerateDocument extends DocumentsEvent {}

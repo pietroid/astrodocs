@@ -60,7 +60,9 @@ class _DocumentScreenState extends State<DocumentScreen> {
         TextButton(
           child: const Text('Gerar documento'),
           //TODO: add export action
-          onPressed: () {},
+          onPressed: () {
+            context.read<DocumentsBloc>().add(GenerateDocument());
+          },
         ),
       ]),
     );

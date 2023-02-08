@@ -1,4 +1,5 @@
 import 'package:astrodocs/blocs/documents_bloc.dart';
+import 'package:astrodocs/data/datasources/google_docs_datasource.dart';
 import 'package:astrodocs/data/datasources/google_sheet_datasource.dart';
 import 'package:astrodocs/data/datasources/local_storage_datasource.dart';
 import 'package:astrodocs/data/repositories/auth_repository.dart';
@@ -31,6 +32,7 @@ class MyApp extends StatelessWidget {
                   DocumentRepository(
                     LocalStorageDataSource(),
                     GoogleSheetDataSource(context.read<GoogleAuthClient>()),
+                    GoogleDocsDataSource(context.read<GoogleAuthClient>()),
                   ),
                 ))
       ],
