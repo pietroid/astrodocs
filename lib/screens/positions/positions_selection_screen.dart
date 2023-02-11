@@ -27,7 +27,7 @@ class _PositionsSelectionScreenState extends State<PositionsSelectionScreen> {
 
     final List<Position> matchedPositions =
         documentsBloc.state.positions.where((position) {
-      final hasSearchTerm = removeDiacritics(position.name)
+      final hasSearchTerm = removeDiacritics(position.title)
           .contains(removeDiacritics(searchTerm));
       final isPlanet = position.planetName == widget.planet.name;
       return isPlanet && hasSearchTerm;
@@ -58,7 +58,7 @@ class _PositionsSelectionScreenState extends State<PositionsSelectionScreen> {
                 children: [
                   InkWell(
                     child: ListTile(
-                      title: Text(matchedPositions[index].name),
+                      title: Text(matchedPositions[index].title),
                     ),
                     onTap: () {
                       documentsBloc.add(UpdatePosition(

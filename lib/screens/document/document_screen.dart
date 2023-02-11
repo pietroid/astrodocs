@@ -19,6 +19,8 @@ class _DocumentScreenState extends State<DocumentScreen> {
   Widget build(BuildContext context) {
     final document = context.select((DocumentsBloc documentsBloc) =>
         documentsBloc.state.getDocumentById(widget.documentId));
+    final isLoading = context.select((DocumentsBloc documentsBloc) =>
+        documentsBloc.state is DocumentsLoading);
 
     return Scaffold(
       appBar: AppBar(),
@@ -40,7 +42,7 @@ class _DocumentScreenState extends State<DocumentScreen> {
                           planetPosition.planet.name,
                         ),
                         if (planetPosition.position != null)
-                          Text(planetPosition.position!.name),
+                          Text(planetPosition.position!.title),
                       ],
                     ),
                     onTap: () {
@@ -58,10 +60,11 @@ class _DocumentScreenState extends State<DocumentScreen> {
           itemCount: document.planetPositions.length,
         ),
         TextButton(
-          child: const Text('Gerar documento'),
-          //TODO: add export action
+          child: isLoading
+              ? const CircularProgressIndicator()
+              : const Text('Gerar documento'),
           onPressed: () {
-            context.read<DocumentsBloc>().add(GenerateDocument());
+            context.read<DocumentsBloc>().add(GenerateDocument(document));
           },
         ),
       ]),

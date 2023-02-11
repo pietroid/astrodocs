@@ -78,7 +78,18 @@ class DocumentsBloc extends Bloc<DocumentsEvent, DocumentsState> {
     });
 
     on<GenerateDocument>((event, emit) async {
-      await documentRepository.generateDocument();
+      emit(DocumentsLoading(
+        documents: state.documents,
+        positions: state.positions,
+      ));
+
+      await documentRepository.generateDocument(
+          documentId: event.currentDocument.id);
+
+      emit(DocumentsSuccess(
+        documents: state.documents,
+        positions: state.positions,
+      ));
     });
   }
 }

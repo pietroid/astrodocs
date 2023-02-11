@@ -39,7 +39,7 @@ Future<void> showCreateDocumentDialog(BuildContext context) async {
             onPressed: () {
               documentsBloc.add(
                 CreateDocument(
-                  personName: nameController.text,
+                  personName: formatName(nameController.text),
                   birthday: birthdayController.text,
                 ),
               );
@@ -50,4 +50,12 @@ Future<void> showCreateDocumentDialog(BuildContext context) async {
       );
     },
   );
+}
+
+String formatName(String rawName) {
+  return rawName
+      .trim()
+      .split(' ')
+      .map((name) => name[0].toUpperCase() + name.substring(1))
+      .join(' ');
 }

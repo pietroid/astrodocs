@@ -14,6 +14,7 @@ Document _$DocumentFromJson(Map<String, dynamic> json) => Document(
       planetPositions: (json['planetPositions'] as List<dynamic>)
           .map((e) => PlanetPosition.fromJson(e as Map<String, dynamic>))
           .toList(),
+      lastFileId: json['lastFileId'] as String?,
     );
 
 Map<String, dynamic> _$DocumentToJson(Document instance) => <String, dynamic>{
@@ -22,4 +23,5 @@ Map<String, dynamic> _$DocumentToJson(Document instance) => <String, dynamic>{
       'birthday': instance.birthday,
       'dateCreated': instance.dateCreated.toIso8601String(),
       'planetPositions': instance.planetPositions,
+      'lastFileId': instance.lastFileId,
     };

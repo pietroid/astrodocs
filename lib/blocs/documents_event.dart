@@ -25,4 +25,8 @@ class UpdatePosition extends DocumentsEvent {
   });
 }
 
-class GenerateDocument extends DocumentsEvent {}
+class GenerateDocument extends DocumentsEvent {
+  final Document currentDocument;
+
+  GenerateDocument(this.currentDocument);
+}

@@ -10,6 +10,7 @@ class Document {
   final String birthday;
   final DateTime dateCreated;
   final List<PlanetPosition> planetPositions;
+  String? lastFileId;
 
   Document({
     required this.id,
@@ -17,6 +18,7 @@ class Document {
     required this.birthday,
     required this.dateCreated,
     required this.planetPositions,
+    this.lastFileId,
   });
 
   factory Document.fromJson(Map<String, dynamic> json) =>
