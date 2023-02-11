@@ -17,6 +17,7 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       //TODO: make this better
+      //TODO: fix some auth corner cases (logout, token expired, etc)
       final authRepository = context.read<AuthRepository>();
       final documentsBloc = context.read<DocumentsBloc>();
       await authRepository.setup();

@@ -126,7 +126,7 @@ class DocumentRepository {
           replaceAllText: docs.ReplaceAllTextRequest(
             containsText: docs.SubstringMatchCriteria(
                 matchCase: true, text: 'TITLE_$stringIndex'),
-            replaceText: title,
+            replaceText: '$icon $title',
           ),
         ),
         docs.Request(
