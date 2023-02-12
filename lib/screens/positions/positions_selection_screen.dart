@@ -33,49 +33,74 @@ class _PositionsSelectionScreenState extends State<PositionsSelectionScreen> {
       return isPlanet && hasSearchTerm;
     }).toList();
 
-    //TODO: adjust layouting
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(title: Text('Posições para ${widget.planet.name}')),
       body: Column(children: [
-        Text('Posições para ${widget.planet.name}:'),
-        Row(
-          children: [
-            Expanded(
-                child: TextField(
-              onChanged: (value) => setState(
-                () {
-                  searchTerm = value;
-                },
+        Padding(
+          padding: const EdgeInsets.only(
+            left: 20,
+            right: 20,
+            bottom: 10,
+          ),
+          child: Row(
+            children: [
+              Expanded(
+                  child: TextField(
+                onChanged: (value) => setState(
+                  () {
+                    searchTerm = value;
+                  },
+                ),
+              )),
+              const SizedBox(
+                width: 10,
               ),
-            )),
-            const Icon(Icons.search),
-          ],
+              const Icon(
+                Icons.search,
+                size: 32,
+              ),
+            ],
+          ),
         ),
         Expanded(
           child: ListView.builder(
             itemBuilder: ((context, index) {
-              return Column(
-                children: [
-                  InkWell(
-                    child: ListTile(
-                      title: Text(matchedPositions[index].title),
-                    ),
-                    onTap: () {
-                      documentsBloc.add(UpdatePosition(
-                        currentDocument: widget.currentDocument,
-                        selectedPosition: matchedPositions[index],
-                      ));
-                      Navigator.of(context).pop();
-                    },
-                  ),
-                  const Divider(),
-                ],
-              );
+              return TileItem(
+                  title: matchedPositions[index].title,
+                  onTap: () {
+                    documentsBloc.add(UpdatePosition(
+                      currentDocument: widget.currentDocument,
+                      selectedPosition: matchedPositions[index],
+                    ));
+                    Navigator.of(context).pop();
+                  });
             }),
             itemCount: matchedPositions.length,
           ),
         )
       ]),
+    );
+  }
+}
+
+class TileItem extends StatelessWidget {
+  final String title;
+  final Function()? onTap;
+  const TileItem({Key? key, required this.title, this.onTap}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        InkWell(
+            onTap: onTap,
+            child: ListTile(
+              title: Text(title),
+            )),
+        Divider(
+          color: Theme.of(context).primaryColor,
+        ),
+      ],
     );
   }
 }

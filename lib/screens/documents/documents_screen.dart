@@ -32,6 +32,7 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
 
     return Scaffold(
       appBar: AppBar(
+        title: const Text('Documentos'),
         actions: [
           IconButton(
               onPressed: () async {

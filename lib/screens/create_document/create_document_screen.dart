@@ -17,11 +17,19 @@ Future<void> showCreateDocumentDialog(BuildContext context) async {
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Text('Nome:'),
+            const SizedBox(height: 10),
+            const Text(
+              'Nome:',
+              style: TextStyle(fontSize: 14),
+            ),
             TextField(
               controller: nameController,
             ),
-            const Text('Data de nascimento:'),
+            const SizedBox(height: 32),
+            const Text(
+              'Data de nascimento:',
+              style: TextStyle(fontSize: 14),
+            ),
             TextField(
               controller: birthdayController,
             ),

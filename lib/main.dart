@@ -8,6 +8,7 @@ import 'package:astrodocs/screens/documents/documents_screen.dart';
 import 'package:astrodocs/shared/google_auth_client.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 void main() {
@@ -39,8 +40,29 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Astrodocs',
         theme: ThemeData(
-          primarySwatch: Colors.blue,
-        ),
+            textTheme: GoogleFonts.poppinsTextTheme(
+              Theme.of(context).textTheme,
+            ).apply(bodyColor: const Color(0xFF444444)),
+            appBarTheme: const AppBarTheme(
+              backgroundColor: Colors.transparent,
+              shadowColor: Colors.transparent,
+              foregroundColor: Colors.black,
+            ),
+            primarySwatch: const MaterialColor(
+              0xFF9E2D93,
+              <int, Color>{
+                50: Color.fromARGB(255, 242, 210, 239),
+                100: Color.fromARGB(255, 223, 164, 217),
+                200: Color.fromARGB(255, 223, 144, 215),
+                300: Color.fromARGB(255, 186, 84, 176),
+                400: Color.fromARGB(255, 195, 68, 183),
+                500: Color(0xFF9E2D93),
+                600: Color.fromARGB(255, 130, 33, 120),
+                700: Color.fromARGB(255, 106, 21, 97),
+                800: Color.fromARGB(255, 98, 14, 89),
+                900: Color.fromARGB(255, 76, 6, 69),
+              },
+            )),
         home: const DocumentsScreen(),
       ),
     );
