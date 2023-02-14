@@ -58,7 +58,11 @@ class _SplashScreenState extends State<SplashScreen> {
         }
       }),
       child: Container(
-        color: Theme.of(context).primaryColor,
+        color: Theme.of(context).primaryColorDark,
+        child: Padding(
+          padding: const EdgeInsets.all(50.0),
+          child: Center(child: Image.asset('assets/logo.png')),
+        ),
       ),
     );
   }
