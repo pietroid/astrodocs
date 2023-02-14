@@ -1,3 +1,4 @@
+import 'package:astrodocs/blocs/documents_alert_bloc.dart';
 import 'package:astrodocs/data/entities/document.dart';
 import 'package:astrodocs/data/entities/planet_position.dart';
 import 'package:astrodocs/data/entities/position.dart';
@@ -10,7 +11,10 @@ part 'documents_state.dart';
 
 class DocumentsBloc extends Bloc<DocumentsEvent, DocumentsState> {
   final DocumentRepository documentRepository;
-  DocumentsBloc(this.documentRepository) : super(DocumentsInitial()) {
+  final DocumentsAlertBloc documentsAlertBloc;
+
+  DocumentsBloc(this.documentRepository, this.documentsAlertBloc)
+      : super(DocumentsInitial()) {
     on<FetchDocuments>((event, emit) async {
       try {
         final documents = await documentRepository.fetchDocuments();
@@ -74,10 +78,13 @@ class DocumentsBloc extends Bloc<DocumentsEvent, DocumentsState> {
       emit(DocumentsLoading(
         documents: state.documents,
       ));
-
-      await documentRepository.generateDocument(
-          documentId: event.currentDocument.id);
-
+      try {
+        await documentRepository.generateDocument(
+            documentId: event.currentDocument.id);
+        documentsAlertBloc.add(DocumentGeneratedSuccessfully());
+      } catch (error) {
+        documentsAlertBloc.add(DocumentNotGeneratedSuccessfully());
+      }
       emit(DocumentsSuccess(
         documents: state.documents,
       ));

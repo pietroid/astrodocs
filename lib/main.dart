@@ -1,3 +1,4 @@
+import 'package:astrodocs/blocs/documents_alert_bloc.dart';
 import 'package:astrodocs/blocs/documents_bloc.dart';
 import 'package:astrodocs/data/datasources/google_docs_datasource.dart';
 import 'package:astrodocs/data/datasources/google_sheet_datasource.dart';
@@ -39,6 +40,7 @@ class MyApp extends StatelessWidget {
         Provider(
             create: (context) =>
                 PositionStore(context.read<GoogleSheetDataSource>())),
+        BlocProvider(create: (context) => DocumentsAlertBloc()),
         BlocProvider(
             create: (context) => DocumentsBloc(
                   DocumentRepository(
@@ -46,6 +48,7 @@ class MyApp extends StatelessWidget {
                     GoogleDocsDataSource(context.read<GoogleAuthClient>()),
                     context.read<PlanetStore>(),
                   ),
+                  context.read<DocumentsAlertBloc>(),
                 ))
       ],
       child: MaterialApp(
