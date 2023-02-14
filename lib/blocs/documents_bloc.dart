@@ -12,14 +12,10 @@ class DocumentsBloc extends Bloc<DocumentsEvent, DocumentsState> {
   final DocumentRepository documentRepository;
   DocumentsBloc(this.documentRepository) : super(DocumentsInitial()) {
     on<FetchDocuments>((event, emit) async {
-      emit(DocumentsInitialLoading());
       try {
-        //TODO: paralelize
         final documents = await documentRepository.fetchDocuments();
-        final positions = await documentRepository.fetchPositions();
         emit(DocumentsSuccess(
           documents: documents,
-          positions: positions,
         ));
       } catch (e) {
         emit(DocumentsFailed());
@@ -29,7 +25,6 @@ class DocumentsBloc extends Bloc<DocumentsEvent, DocumentsState> {
     on<CreateDocument>((event, emit) async {
       emit(DocumentsLoading(
         documents: state.documents,
-        positions: state.positions,
       ));
 
       await documentRepository.createDocument(
@@ -38,7 +33,6 @@ class DocumentsBloc extends Bloc<DocumentsEvent, DocumentsState> {
 
       emit(DocumentsSuccess(
         documents: newDocuments,
-        positions: state.positions,
       ));
     });
 
@@ -73,14 +67,12 @@ class DocumentsBloc extends Bloc<DocumentsEvent, DocumentsState> {
 
       emit(DocumentsSuccess(
         documents: newDocuments,
-        positions: state.positions,
       ));
     });
 
     on<GenerateDocument>((event, emit) async {
       emit(DocumentsLoading(
         documents: state.documents,
-        positions: state.positions,
       ));
 
       await documentRepository.generateDocument(
@@ -88,7 +80,6 @@ class DocumentsBloc extends Bloc<DocumentsEvent, DocumentsState> {
 
       emit(DocumentsSuccess(
         documents: state.documents,
-        positions: state.positions,
       ));
     });
   }

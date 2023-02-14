@@ -1,26 +1,23 @@
 import 'package:astrodocs/data/datasources/google_docs_datasource.dart';
-import 'package:astrodocs/data/datasources/google_sheet_datasource.dart';
 import 'package:astrodocs/data/datasources/local_storage_datasource.dart';
 import 'package:astrodocs/data/entities/document.dart';
-import 'package:astrodocs/data/entities/planet.dart';
 import 'package:astrodocs/data/entities/planet_position.dart';
-import 'package:astrodocs/data/entities/position.dart';
+import 'package:astrodocs/data/repositories/planet_repository.dart';
 import 'package:googleapis/docs/v1.dart' as docs;
 import 'package:uuid/uuid.dart';
 
 class DocumentRepository {
   final LocalStorageDataSource localStorageDataSource;
-  final GoogleSheetDataSource googleSheetDataSource;
   final GoogleDocsDataSource googleDocsDataSource;
+  final PlanetStore planetStore;
 
   DocumentRepository(
     this.localStorageDataSource,
-    this.googleSheetDataSource,
     this.googleDocsDataSource,
+    this.planetStore,
   );
 
   List<Document> _documents = [];
-  List<Planet> _planets = [];
 
   Future<List<Document>> fetchDocuments() async {
     if (_documents.isEmpty) {
@@ -29,28 +26,11 @@ class DocumentRepository {
     return List.from(_documents);
   }
 
-  Future<List<Position>> fetchPositions() async {
-    final positionsJson = await googleSheetDataSource.spreadsheetAsJson(
-        spreadsheetId: "1SHYbPiF4qQ5v5QhpyOTLC9bl72lM-v-7EQRX9NVWGOU");
-    return positionsJson
-        .map((positionJson) => Position.fromJson(positionJson))
-        .toList();
-  }
-
-  Future<List<Planet>> _fetchPlanets() async {
-    if (_planets.isNotEmpty) return _planets;
-    final planetsJson = await googleSheetDataSource.spreadsheetAsJson(
-        spreadsheetId: "1qxTTNuSLiN6bYKBRObxx5GYhsd2yN_aZRRNreGPSnaA");
-    _planets =
-        planetsJson.map((planetJson) => Planet.fromJson(planetJson)).toList();
-    return _planets;
-  }
-
   Future<void> createDocument({
     required personName,
     required birthday,
   }) async {
-    final planets = await _fetchPlanets();
+    final planets = planetStore.planets;
     _documents.add(Document(
         id: const Uuid().v1(),
         personName: personName,

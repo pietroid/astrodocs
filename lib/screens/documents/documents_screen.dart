@@ -2,6 +2,7 @@ import 'package:astrodocs/blocs/documents_bloc.dart';
 import 'package:astrodocs/data/repositories/auth_repository.dart';
 import 'package:astrodocs/screens/create_document/create_document_screen.dart';
 import 'package:astrodocs/screens/documents/document_success_screen.dart';
+import 'package:astrodocs/screens/splash_screen/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -14,21 +15,8 @@ class DocumentsScreen extends StatefulWidget {
 
 class _DocumentsScreenState extends State<DocumentsScreen> {
   @override
-  void initState() {
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
-      //TODO: make this better
-      //TODO: fix some auth corner cases (logout, token expired, etc)
-      final authRepository = context.read<AuthRepository>();
-      final documentsBloc = context.read<DocumentsBloc>();
-      await authRepository.setup();
-      documentsBloc.add(FetchDocuments());
-    });
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    final authRepository = context.read<AuthRepository>();
+    final authStore = context.read<AuthStore>();
 
     return Scaffold(
       appBar: AppBar(
@@ -36,22 +24,16 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
         actions: [
           IconButton(
               onPressed: () async {
-                if (authRepository.isLoggedIn) {
-                  authRepository.logout();
-                } else {
-                  authRepository.login();
-                }
+                await authStore.logout();
+                Navigator.of(context).pushReplacement(MaterialPageRoute(
+                  builder: (context) => const SplashScreen(),
+                ));
               },
-              icon: const Icon(Icons.person))
+              icon: const Icon(Icons.logout))
         ],
       ),
       body: BlocBuilder<DocumentsBloc, DocumentsState>(
         builder: ((context, state) {
-          if (state is DocumentsInitialLoading || state is DocumentsInitial) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          }
           if (state is DocumentsSuccess || state is DocumentsLoading) {
             return const DocumentsSuccessScreen();
           }

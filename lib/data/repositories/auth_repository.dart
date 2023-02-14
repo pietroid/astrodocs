@@ -1,7 +1,7 @@
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:googleapis/drive/v3.dart';
 
-class AuthRepository {
+class AuthStore {
   final _googleSignIn = GoogleSignIn.standard(scopes: [DriveApi.driveScope]);
 
   bool _isLoggedIn = false;

@@ -2,6 +2,7 @@ import 'package:astrodocs/blocs/documents_bloc.dart';
 import 'package:astrodocs/data/entities/document.dart';
 import 'package:astrodocs/data/entities/planet.dart';
 import 'package:astrodocs/data/entities/position.dart';
+import 'package:astrodocs/data/repositories/position_repository.dart';
 import 'package:diacritic/diacritic.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -24,11 +25,13 @@ class _PositionsSelectionScreenState extends State<PositionsSelectionScreen> {
   @override
   Widget build(BuildContext context) {
     final documentsBloc = context.read<DocumentsBloc>();
+    final positionStore = context.read<PositionStore>();
 
     final List<Position> matchedPositions =
-        documentsBloc.state.positions.where((position) {
+        positionStore.positions.where((position) {
       final hasSearchTerm = removeDiacritics(position.title)
-          .contains(removeDiacritics(searchTerm));
+          .toLowerCase()
+          .contains(removeDiacritics(searchTerm).toLowerCase());
       final isPlanet = position.planetName == widget.planet.name;
       return isPlanet && hasSearchTerm;
     }).toList();

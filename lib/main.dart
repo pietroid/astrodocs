@@ -4,7 +4,9 @@ import 'package:astrodocs/data/datasources/google_sheet_datasource.dart';
 import 'package:astrodocs/data/datasources/local_storage_datasource.dart';
 import 'package:astrodocs/data/repositories/auth_repository.dart';
 import 'package:astrodocs/data/repositories/document_repository.dart';
-import 'package:astrodocs/screens/documents/documents_screen.dart';
+import 'package:astrodocs/data/repositories/planet_repository.dart';
+import 'package:astrodocs/data/repositories/position_repository.dart';
+import 'package:astrodocs/screens/splash_screen/splash_screen.dart';
 import 'package:astrodocs/shared/google_auth_client.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -23,17 +25,26 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        Provider(create: (context) => AuthRepository()),
+        Provider(create: (context) => AuthStore()),
         Provider(
             create: (context) => GoogleAuthClient(
-                  () => context.read<AuthRepository>().authHeaders,
+                  () => context.read<AuthStore>().authHeaders,
                 )),
+        Provider(
+            create: (context) =>
+                GoogleSheetDataSource(context.read<GoogleAuthClient>())),
+        Provider(
+            create: (context) =>
+                PlanetStore(context.read<GoogleSheetDataSource>())),
+        Provider(
+            create: (context) =>
+                PositionStore(context.read<GoogleSheetDataSource>())),
         BlocProvider(
             create: (context) => DocumentsBloc(
                   DocumentRepository(
                     LocalStorageDataSource(),
-                    GoogleSheetDataSource(context.read<GoogleAuthClient>()),
                     GoogleDocsDataSource(context.read<GoogleAuthClient>()),
+                    context.read<PlanetStore>(),
                   ),
                 ))
       ],
@@ -63,7 +74,7 @@ class MyApp extends StatelessWidget {
                 900: Color.fromARGB(255, 76, 6, 69),
               },
             )),
-        home: const DocumentsScreen(),
+        home: const SplashScreen(),
       ),
     );
   }
