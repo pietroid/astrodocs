@@ -59,48 +59,49 @@ class _DocumentScreenState extends State<DocumentScreen> {
         child: Padding(
           padding: const EdgeInsets.all(10.0),
           child: Column(children: [
-            ListView.builder(
-              shrinkWrap: true,
-              itemBuilder: (context, index) {
-                final planetPosition = document.planetPositions[index];
-                return CustomCard(
-                    content: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
-                          children: [
-                            Text(
-                              style: const TextStyle(
-                                  fontSize: 20, fontWeight: FontWeight.bold),
-                              planetPosition.planet.icon,
-                            ),
-                            const SizedBox(
-                              width: 10,
-                            ),
-                            Text(
-                              style:
-                                  const TextStyle(fontWeight: FontWeight.bold),
-                              planetPosition.planet.name,
-                            ),
-                          ],
-                        ),
-                        if (planetPosition.position != null)
-                          Text(planetPosition.position!.title),
-                      ],
-                    ),
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => PositionsSelectionScreen(
-                                  currentDocument: document,
-                                  planet:
-                                      document.planetPositions[index].planet,
-                                )),
-                      );
-                    });
-              },
-              itemCount: document.planetPositions.length,
+            Expanded(
+              child: ListView.builder(
+                itemBuilder: (context, index) {
+                  final planetPosition = document.planetPositions[index];
+                  return CustomCard(
+                      content: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(
+                            children: [
+                              Text(
+                                style: const TextStyle(
+                                    fontSize: 20, fontWeight: FontWeight.bold),
+                                planetPosition.planet.icon,
+                              ),
+                              const SizedBox(
+                                width: 10,
+                              ),
+                              Text(
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.bold),
+                                planetPosition.planet.name,
+                              ),
+                            ],
+                          ),
+                          if (planetPosition.position != null)
+                            Text(planetPosition.position!.title),
+                        ],
+                      ),
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => PositionsSelectionScreen(
+                                    currentDocument: document,
+                                    planet:
+                                        document.planetPositions[index].planet,
+                                  )),
+                        );
+                      });
+                },
+                itemCount: document.planetPositions.length,
+              ),
             ),
             const SizedBox(
               height: 16,
